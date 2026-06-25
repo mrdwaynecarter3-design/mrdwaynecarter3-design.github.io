@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { NavLink, Link } from 'react-router-dom'
+import { Menu, X } from 'lucide-react'
 
 const links = [
   { to: '/rankings', label: 'Rankings' },
@@ -11,12 +12,12 @@ const links = [
 
 function Logo() {
   return (
-    <Link to="/" className="group flex items-center gap-2.5">
-      <span className="grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-flame-400 to-flame-600 font-display text-xl font-extrabold text-ink shadow-lg shadow-flame-600/20">
+    <Link to="/" className="flex items-center gap-2.5">
+      <span className="grid h-9 w-9 place-items-center rounded-md bg-accent font-display text-xl font-extrabold text-ink">
         N
       </span>
       <span className="font-display text-2xl font-extrabold uppercase leading-none tracking-tight text-white">
-        NXT<span className="text-flame-gradient"> MAN UP</span>
+        NXT MAN UP
       </span>
     </Link>
   )
@@ -27,11 +28,11 @@ export default function Navbar() {
 
   const linkClass = ({ isActive }) =>
     `text-sm font-semibold uppercase tracking-wide transition-colors ${
-      isActive ? 'text-white' : 'text-zinc-400 hover:text-flame-400'
+      isActive ? 'text-white' : 'text-zinc-400 hover:text-white'
     }`
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-ink/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-line bg-ink">
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6">
         <Logo />
 
@@ -41,10 +42,7 @@ export default function Navbar() {
               {l.label}
             </NavLink>
           ))}
-          <Link
-            to="/evaluations"
-            className="rounded-lg bg-gradient-to-r from-flame-400 to-flame-600 px-4 py-2 text-sm font-bold uppercase tracking-wide text-ink transition-transform hover:scale-[1.03]"
-          >
+          <Link to="/evaluations" className="btn-accent">
             For Coaches
           </Link>
         </div>
@@ -54,16 +52,12 @@ export default function Navbar() {
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle menu"
         >
-          <div className="space-y-1.5">
-            <span className={`block h-0.5 w-5 bg-current transition ${open ? 'translate-y-2 rotate-45' : ''}`} />
-            <span className={`block h-0.5 w-5 bg-current transition ${open ? 'opacity-0' : ''}`} />
-            <span className={`block h-0.5 w-5 bg-current transition ${open ? '-translate-y-2 -rotate-45' : ''}`} />
-          </div>
+          {open ? <X size={20} /> : <Menu size={20} />}
         </button>
       </nav>
 
       {open && (
-        <div className="border-t border-line bg-ink-2 px-4 py-3 md:hidden">
+        <div className="border-t border-line bg-ink px-4 py-3 md:hidden">
           <div className="flex flex-col gap-1">
             {links.map((l) => (
               <NavLink

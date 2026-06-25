@@ -8,7 +8,7 @@ export function PlayerAvatar({ name, size = 'h-14 w-14', text = 'text-lg' }) {
     .join('')
   return (
     <span
-      className={`grid ${size} shrink-0 place-items-center rounded-xl bg-gradient-to-br from-ink-3 to-ink ring-1 ring-line ${text} font-display font-bold uppercase text-flame-400`}
+      className={`grid ${size} shrink-0 place-items-center rounded-full bg-ink-3 ring-1 ring-line ${text} font-display font-bold uppercase text-zinc-200`}
     >
       {initials}
     </span>
@@ -17,11 +17,8 @@ export function PlayerAvatar({ name, size = 'h-14 w-14', text = 'text-lg' }) {
 
 export function NewBadge({ children = 'New update' }) {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-flame-500/15 px-2.5 py-0.5 text-[11px] font-bold uppercase tracking-wide text-flame-300 ring-1 ring-flame-500/30">
-      <span className="relative flex h-1.5 w-1.5">
-        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-flame-400 opacity-75" />
-        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-flame-400" />
-      </span>
+    <span className="inline-flex items-center gap-1.5 rounded-md bg-accent/10 px-2 py-0.5 text-[11px] font-bold uppercase tracking-wide text-accent ring-1 ring-accent/25">
+      <span className="h-1.5 w-1.5 rounded-full bg-accent" />
       {children}
     </span>
   )
@@ -31,7 +28,7 @@ export function SectionHeading({ eyebrow, title, children }) {
   return (
     <div className="mb-8">
       {eyebrow && (
-        <p className="mb-2 font-display text-sm font-bold uppercase tracking-[0.2em] text-flame-400">
+        <p className="mb-2 font-display text-sm font-bold uppercase tracking-[0.2em] text-accent">
           {eyebrow}
         </p>
       )}
@@ -48,9 +45,7 @@ export function StatusPill({ status, detail }) {
   return (
     <span
       className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-xs font-bold uppercase tracking-wide ${
-        committed
-          ? 'bg-emerald-500/15 text-emerald-300 ring-1 ring-emerald-500/30'
-          : 'bg-zinc-500/15 text-zinc-300 ring-1 ring-zinc-500/30'
+        committed ? 'bg-emerald-500/10 text-emerald-400' : 'bg-ink-3 text-zinc-400'
       }`}
     >
       {status}

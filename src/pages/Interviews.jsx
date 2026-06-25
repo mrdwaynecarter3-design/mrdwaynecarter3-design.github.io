@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { Play } from 'lucide-react'
 import { interviews } from '../data/interviews'
 import { formatDate } from '../data/players'
 import { SectionHeading, PlayerAvatar } from '../components/ui'
@@ -7,7 +8,7 @@ function InterviewCard({ item }) {
   return (
     <div className="card overflow-hidden">
       {/* Video frame */}
-      <div className="relative aspect-video bg-gradient-to-br from-ink-3 to-ink">
+      <div className="relative aspect-video bg-ink-3">
         {item.youtubeId ? (
           <iframe
             className="absolute inset-0 h-full w-full"
@@ -19,8 +20,8 @@ function InterviewCard({ item }) {
         ) : (
           <div className="absolute inset-0 grid place-items-center">
             <div className="text-center">
-              <span className="grid h-16 w-16 mx-auto place-items-center rounded-full bg-flame-500/15 text-2xl text-flame-400 ring-1 ring-flame-500/30">
-                ▶
+              <span className="grid h-14 w-14 mx-auto place-items-center rounded-full border border-line text-zinc-300">
+                <Play size={22} className="ml-0.5 fill-current" />
               </span>
               <p className="mt-3 text-xs font-bold uppercase tracking-widest text-zinc-500">
                 Footage uploading soon
@@ -28,7 +29,7 @@ function InterviewCard({ item }) {
             </div>
           </div>
         )}
-        <span className="absolute bottom-3 right-3 rounded bg-ink/80 px-2 py-0.5 text-xs font-bold text-zinc-200">
+        <span className="absolute bottom-3 right-3 rounded bg-ink/90 px-2 py-0.5 text-xs font-bold text-zinc-200">
           {item.duration}
         </span>
       </div>
@@ -39,7 +40,7 @@ function InterviewCard({ item }) {
           <div>
             <Link
               to={`/player/${item.playerSlug}`}
-              className="font-display text-base font-bold text-white hover:text-flame-400"
+              className="font-display text-base font-bold text-white hover:text-accent"
             >
               {item.playerName}
             </Link>
@@ -49,11 +50,11 @@ function InterviewCard({ item }) {
         <p className="mt-3 font-semibold text-zinc-200">{item.title}</p>
 
         {/* The signature closer */}
-        <div className="mt-4 flex items-center gap-2 rounded-lg border border-flame-500/30 bg-flame-500/5 px-3 py-2">
-          <span className="font-display text-xs font-extrabold uppercase tracking-wider text-flame-400">
+        <div className="mt-4 border-t border-line pt-3">
+          <span className="font-display text-xs font-bold uppercase tracking-wider text-accent">
             Closer
           </span>
-          <span className="text-sm italic text-zinc-200">“{item.closer}”</span>
+          <p className="mt-1 text-sm italic text-zinc-300">“{item.closer}”</p>
         </div>
       </div>
     </div>
@@ -65,7 +66,7 @@ export default function Interviews() {
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
       <SectionHeading eyebrow="The Film Room" title="Interviews">
         Sit-downs with the players I’m tracking. Every single one ends the same way —{' '}
-        <span className="text-flame-300">“I got next.”</span>
+        <span className="text-accent">“I got next.”</span>
       </SectionHeading>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

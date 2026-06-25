@@ -38,8 +38,8 @@ export default function Rankings() {
               onClick={() => setYear(y)}
               className={`rounded-lg px-4 py-2 font-display text-sm font-bold uppercase tracking-wide transition-colors ${
                 year === y
-                  ? 'bg-gradient-to-r from-flame-400 to-flame-600 text-ink'
-                  : 'border border-line bg-ink-3 text-zinc-300 hover:border-flame-500/40'
+                  ? 'bg-accent text-ink'
+                  : 'border border-line bg-ink-3 text-zinc-300 hover:bg-ink-2'
               }`}
             >
               {y === 'All' ? 'All classes' : y}
@@ -57,8 +57,8 @@ export default function Rankings() {
               onClick={() => setPosition(p)}
               className={`rounded-lg px-4 py-2 font-display text-sm font-bold uppercase tracking-wide transition-colors ${
                 position === p
-                  ? 'bg-gradient-to-r from-flame-400 to-flame-600 text-ink'
-                  : 'border border-line bg-ink-3 text-zinc-300 hover:border-flame-500/40'
+                  ? 'bg-accent text-ink'
+                  : 'border border-line bg-ink-3 text-zinc-300 hover:bg-ink-2'
               }`}
             >
               {p === 'All' ? 'All positions' : p}
@@ -96,7 +96,7 @@ export default function Rankings() {
                     <Link to={`/player/${p.slug}`} className="flex items-center gap-3 group">
                       <PlayerAvatar name={p.name} size="h-10 w-10" text="text-sm" />
                       <div>
-                        <p className="font-semibold text-white group-hover:text-flame-400">
+                        <p className="font-semibold text-white group-hover:text-accent">
                           {p.name}
                         </p>
                         <p className="text-xs text-zinc-500">
@@ -111,7 +111,7 @@ export default function Rankings() {
                       <span className="font-display text-lg font-extrabold text-white">
                         {p.scoutGrade}
                       </span>
-                      <Stars count={p.stars} size="text-[11px]" />
+                      <Stars count={p.stars} size="sm" />
                     </div>
                   </td>
                   <td className="px-4 py-3 text-zinc-300">{p.state}</td>
@@ -119,7 +119,7 @@ export default function Rankings() {
                   <td className="px-4 py-3 text-zinc-300">{p.weight}</td>
                   <td className="px-4 py-3">
                     {p.status === 'Committed' || p.status === 'Signed' ? (
-                      <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-500/15 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-emerald-300 ring-1 ring-emerald-500/30">
+                      <span className="inline-flex items-center gap-1.5 rounded-md bg-emerald-500/10 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-emerald-400">
                         {p.status} · {p.statusDetail}
                       </span>
                     ) : (
@@ -129,7 +129,7 @@ export default function Rankings() {
                   <td className="px-4 py-3 text-right">
                     <Link
                       to={`/player/${p.slug}`}
-                      className="font-display text-sm font-bold uppercase tracking-wide text-flame-400 hover:underline"
+                      className="font-display text-sm font-bold uppercase tracking-wide text-accent hover:text-accent-hover"
                     >
                       View →
                     </Link>
@@ -157,7 +157,7 @@ export default function Rankings() {
         <div className="mt-4 grid gap-x-8 gap-y-2 sm:grid-cols-2">
           {RATING_LEGEND.map((r) => (
             <div key={r.score} className="flex items-start gap-3 text-sm">
-              <span className="w-24 shrink-0 font-display font-bold text-flame-400">{r.score}</span>
+              <span className="w-24 shrink-0 font-display font-bold text-accent">{r.score}</span>
               <span className="text-zinc-400">{r.label}</span>
             </div>
           ))}

@@ -56,12 +56,12 @@ export default function Evaluations() {
               <Link
                 key={p.id}
                 to={`/player/${p.slug}`}
-                className="flex min-w-[230px] items-center gap-3 rounded-xl border border-flame-500/30 bg-flame-500/5 p-3 transition-colors hover:bg-flame-500/10"
+                className="flex min-w-[230px] items-center gap-3 rounded-lg border border-line bg-ink-3 p-3 transition-colors hover:border-zinc-600"
               >
                 <PlayerAvatar name={p.name} size="h-11 w-11" text="text-sm" />
                 <div>
                   <p className="font-semibold text-white">{p.name}</p>
-                  <p className="text-xs text-flame-300">Updated {formatDate(p.eval.updatedAt)}</p>
+                  <p className="text-xs text-accent">Updated {formatDate(p.eval.updatedAt)}</p>
                 </div>
               </Link>
             ))}
@@ -78,8 +78,8 @@ export default function Evaluations() {
               onClick={() => setFilter(f)}
               className={`rounded-lg px-4 py-2 text-sm font-bold uppercase tracking-wide transition-colors ${
                 filter === f
-                  ? 'bg-gradient-to-r from-flame-400 to-flame-600 text-ink'
-                  : 'border border-line bg-ink-3 text-zinc-300 hover:border-flame-500/40'
+                  ? 'bg-accent text-ink'
+                  : 'border border-line bg-ink-3 text-zinc-300 hover:bg-ink-2'
               }`}
             >
               {f}
@@ -91,7 +91,7 @@ export default function Evaluations() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search name, school, state…"
-          className="w-full rounded-lg border border-line bg-ink-2 px-4 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-flame-500/50 focus:outline-none sm:w-72"
+          className="w-full rounded-lg border border-line bg-ink-2 px-4 py-2.5 text-sm text-white placeholder:text-zinc-500 focus:border-accent focus:outline-none sm:w-72"
         />
       </div>
 

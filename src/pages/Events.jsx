@@ -4,15 +4,16 @@ import { SectionHeading } from '../components/ui'
 
 function EventRow({ event }) {
   const upcoming = event.status === 'upcoming'
+  const d = new Date(event.date + 'T00:00:00')
   return (
     <div className="card flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
       <div className="flex items-start gap-4">
-        <div className="grid h-14 w-14 shrink-0 place-items-center rounded-xl border border-line bg-ink-3 text-center">
+        <div className="grid h-14 w-14 shrink-0 place-items-center rounded-lg border border-line bg-ink-3 text-center">
           <span className="font-display text-lg font-extrabold leading-none text-white">
-            {new Date(event.date + 'T00:00:00').getDate()}
+            {d.getDate()}
           </span>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-flame-400">
-            {new Date(event.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short' })}
+          <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">
+            {d.toLocaleDateString('en-US', { month: 'short' })}
           </span>
         </div>
         <div>
@@ -20,9 +21,7 @@ function EventRow({ event }) {
             <p className="font-display text-xl font-bold text-white">{event.name}</p>
             <span
               className={`rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
-                upcoming
-                  ? 'bg-flame-500/15 text-flame-300 ring-1 ring-flame-500/30'
-                  : 'bg-zinc-500/15 text-zinc-300 ring-1 ring-zinc-500/30'
+                upcoming ? 'bg-accent/10 text-accent' : 'bg-ink-3 text-zinc-400'
               }`}
             >
               {upcoming ? 'Attending' : 'Attended'}
@@ -54,7 +53,7 @@ export default function Events() {
       </SectionHeading>
 
       <div className="mb-10">
-        <h3 className="mb-4 font-display text-xl font-extrabold uppercase tracking-tight text-flame-400">
+        <h3 className="mb-4 font-display text-xl font-extrabold uppercase tracking-tight text-white">
           Upcoming
         </h3>
         <div className="space-y-4">
@@ -68,7 +67,7 @@ export default function Events() {
       </div>
 
       <div>
-        <h3 className="mb-4 font-display text-xl font-extrabold uppercase tracking-tight text-zinc-300">
+        <h3 className="mb-4 font-display text-xl font-extrabold uppercase tracking-tight text-zinc-400">
           Recently attended
         </h3>
         <div className="space-y-4">

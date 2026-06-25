@@ -1,16 +1,12 @@
 import { Link, useParams } from 'react-router-dom'
+import { ArrowLeft, Check, Minus, Film, Quote } from 'lucide-react'
 import { getPlayer, isRecentlyUpdated, formatDate } from '../data/players'
 import Stars from '../components/Stars'
 import { PlayerAvatar, NewBadge, StatusPill } from '../components/ui'
 import NotFound from './NotFound'
 
-function RankBadge({ label, value }) {
-  return (
-    <div className="flex items-center justify-between gap-4 border-b border-line/70 py-1.5 last:border-0">
-      <span className="font-display text-2xl font-extrabold leading-none text-white">{value}</span>
-      <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-500">{label}</span>
-    </div>
-  )
+function ordinal(n) {
+  return n === 1 ? 'st' : n === 2 ? 'nd' : n === 3 ? 'rd' : 'th'
 }
 
 export default function PlayerProfile() {
@@ -25,17 +21,16 @@ export default function PlayerProfile() {
       <div className="mb-6 flex items-center justify-between">
         <Link
           to="/evaluations"
-          className="text-sm font-semibold uppercase tracking-wide text-zinc-400 hover:text-flame-400"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wide text-zinc-400 hover:text-white"
         >
-          ← All evaluations
+          <ArrowLeft size={16} /> All evaluations
         </Link>
         <span className="chip">Class of {player.class}</span>
       </div>
 
       {/* ===== Profile header (top-of-evaluation card) ===== */}
-      <div className="card relative overflow-hidden">
-        <div className="pointer-events-none absolute -right-20 -top-24 h-64 w-64 rounded-full bg-flame-600/15 blur-3xl" />
-        <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1fr_auto]">
+      <div className="card overflow-hidden">
+        <div className="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1fr_auto]">
           {/* Left: identity */}
           <div>
             <div className="flex items-start gap-4">
@@ -48,13 +43,13 @@ export default function PlayerProfile() {
                   {isNew && <NewBadge />}
                 </div>
                 <div className="mt-2 flex items-center gap-3">
-                  <Stars count={player.stars} size="text-lg" />
+                  <Stars count={player.stars} size="lg" />
                   <span className="text-zinc-400">
                     {player.position}
                     {player.pos2 ? `/${player.pos2}` : ''}
                   </span>
                 </div>
-                <p className="mt-1 font-display text-lg font-semibold text-zinc-200">
+                <p className="mt-1 font-display text-lg font-semibold text-zinc-300">
                   {player.height} · {player.weight} lbs · Class of {player.class}
                 </p>
               </div>
@@ -63,11 +58,11 @@ export default function PlayerProfile() {
             <dl className="mt-6 grid grid-cols-2 gap-x-6 gap-y-4 text-sm sm:max-w-md">
               <div>
                 <dt className="text-xs uppercase tracking-wide text-zinc-500">Hometown</dt>
-                <dd className="mt-0.5 font-semibold text-flame-300">{player.hometown}</dd>
+                <dd className="mt-0.5 font-semibold text-zinc-200">{player.hometown}</dd>
               </div>
               <div>
                 <dt className="text-xs uppercase tracking-wide text-zinc-500">School</dt>
-                <dd className="mt-0.5 font-semibold text-flame-300">{player.school}</dd>
+                <dd className="mt-0.5 font-semibold text-zinc-200">{player.school}</dd>
               </div>
               <div>
                 <dt className="text-xs uppercase tracking-wide text-zinc-500">Position</dt>
@@ -88,31 +83,33 @@ export default function PlayerProfile() {
             </dl>
           </div>
 
-          {/* Right: scout grade box (à la the reference) */}
-          <div className="w-full self-start rounded-xl border border-line bg-ink/70 p-5 lg:w-60">
+          {/* Right: scout grade */}
+          <div className="w-full self-start border-t border-line pt-6 lg:w-56 lg:border-l lg:border-t-0 lg:pl-6 lg:pt-0">
             <p className="text-[11px] font-bold uppercase tracking-widest text-zinc-500">
               Scout grade
             </p>
             <div className="mt-1 flex items-end gap-2">
-              <span className="font-display text-6xl font-extrabold leading-none text-white">
+              <span className="font-display text-6xl font-extrabold leading-none text-accent">
                 {player.scoutGrade}
               </span>
-              <Stars count={player.stars} size="text-sm" />
+              <Stars count={player.stars} size="sm" />
             </div>
-            <div className="mt-4 flex items-center gap-2 border-y border-line py-3">
-              <span className="font-display text-3xl font-extrabold italic text-flame-400">
-                {player.rank}
-                {player.rank === 1 ? 'st' : player.rank === 2 ? 'nd' : player.rank === 3 ? 'rd' : 'th'}
-              </span>
-              <span className="rounded bg-gradient-to-r from-flame-400 to-flame-600 px-2 py-0.5 font-display text-xs font-extrabold uppercase tracking-wide text-ink">
-                NXT
-              </span>
-            </div>
-            <div className="mt-3">
-              <RankBadge label="National" value={`#${player.rank}`} />
-              <RankBadge label="Regional" value={`#${player.regionalRank}`} />
-              <RankBadge label={`${player.state} · ${player.position}`} value={`#${player.stateRank}`} />
-            </div>
+            <p className="mt-3 font-display text-lg font-bold uppercase tracking-wide text-white">
+              No. {player.rank}
+              <span className="text-zinc-500"> · NXT class rank</span>
+            </p>
+            <dl className="mt-4 space-y-2 text-sm">
+              {[
+                ['National', `#${player.rank}`],
+                ['Regional', `#${player.regionalRank}`],
+                [`${player.state} · ${player.position}`, `#${player.stateRank}`],
+              ].map(([label, value]) => (
+                <div key={label} className="flex items-center justify-between gap-4">
+                  <dt className="text-zinc-500">{label}</dt>
+                  <dd className="font-display text-lg font-extrabold text-white">{value}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </div>
 
@@ -123,8 +120,11 @@ export default function PlayerProfile() {
             ['RPG', player.stats.rpg],
             ['APG', player.stats.apg],
             ['FG%', player.stats.fg],
-          ].map(([label, value]) => (
-            <div key={label} className="border-r border-line p-4 text-center last:border-0">
+          ].map(([label, value], i) => (
+            <div
+              key={label}
+              className={`p-4 text-center ${i < 3 ? 'border-r border-line' : ''}`}
+            >
               <p className="font-display text-2xl font-extrabold text-white">{value}</p>
               <p className="text-[11px] font-bold uppercase tracking-widest text-zinc-500">{label}</p>
             </div>
@@ -134,54 +134,48 @@ export default function PlayerProfile() {
 
       {/* Update banner */}
       {isNew && (
-        <div className="mt-4 flex items-center gap-3 rounded-xl border border-flame-500/30 bg-flame-500/5 px-4 py-3 text-sm">
+        <div className="mt-4 flex flex-wrap items-center gap-3 rounded-lg border border-line bg-ink-2 px-4 py-3 text-sm">
           <NewBadge>Updated {formatDate(player.eval.updatedAt)}</NewBadge>
-          <span className="text-zinc-300">
+          <span className="text-zinc-400">
             This evaluation was revised recently — new notes reflected below.
           </span>
         </div>
       )}
 
       {/* ===== Evaluation body ===== */}
-      <section className="mt-8">
+      <section className="mt-10">
         <h2 className="font-display text-2xl font-extrabold uppercase tracking-tight text-white">
           The Evaluation
         </h2>
         <p className="mt-1 text-xs uppercase tracking-wide text-zinc-500">
           Last updated {formatDate(player.eval.updatedAt)}
         </p>
-        <p className="mt-4 text-lg leading-relaxed text-zinc-200">{player.eval.overview}</p>
+        <p className="mt-4 text-lg leading-relaxed text-zinc-300">{player.eval.overview}</p>
 
         {/* Strengths & Weaknesses headliners */}
-        <div className="mt-8 grid gap-5 md:grid-cols-2">
-          <div className="card overflow-hidden">
-            <div className="flex items-center gap-2 border-b border-line bg-emerald-500/10 px-5 py-3">
-              <span className="text-emerald-400">▲</span>
-              <h3 className="font-display text-lg font-extrabold uppercase tracking-wide text-emerald-300">
-                Strengths
-              </h3>
-            </div>
-            <ul className="space-y-3 p-5">
+        <div className="mt-8 grid gap-6 md:grid-cols-2">
+          <div>
+            <h3 className="font-display text-lg font-extrabold uppercase tracking-wide text-emerald-400">
+              Strengths
+            </h3>
+            <ul className="mt-4 space-y-3">
               {player.eval.strengths.map((s, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-zinc-200">
-                  <span className="mt-1 text-emerald-400">+</span>
+                <li key={i} className="flex items-start gap-3 text-sm text-zinc-300">
+                  <Check size={18} className="mt-0.5 shrink-0 text-emerald-400" />
                   {s}
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="card overflow-hidden">
-            <div className="flex items-center gap-2 border-b border-line bg-red-500/10 px-5 py-3">
-              <span className="text-red-400">▼</span>
-              <h3 className="font-display text-lg font-extrabold uppercase tracking-wide text-red-300">
-                Weaknesses
-              </h3>
-            </div>
-            <ul className="space-y-3 p-5">
+          <div>
+            <h3 className="font-display text-lg font-extrabold uppercase tracking-wide text-red-400">
+              Weaknesses
+            </h3>
+            <ul className="mt-4 space-y-3">
               {player.eval.weaknesses.map((w, i) => (
-                <li key={i} className="flex items-start gap-3 text-sm text-zinc-200">
-                  <span className="mt-1 text-red-400">–</span>
+                <li key={i} className="flex items-start gap-3 text-sm text-zinc-300">
+                  <Minus size={18} className="mt-0.5 shrink-0 text-red-400" />
                   {w}
                 </li>
               ))}
@@ -191,22 +185,20 @@ export default function PlayerProfile() {
       </section>
 
       {/* Film & interview */}
-      <section className="mt-8 grid gap-5 md:grid-cols-2">
-        <div className="card p-6">
+      <section className="mt-10 grid gap-6 md:grid-cols-2">
+        <div>
           <h3 className="font-display text-lg font-extrabold uppercase tracking-wide text-white">
             Personal film
           </h3>
-          <p className="mt-1 text-sm text-zinc-400">Footage I gathered in person.</p>
+          <p className="mt-1 text-sm text-zinc-500">Footage I gathered in person.</p>
           {player.film.length ? (
             <ul className="mt-4 space-y-2">
               {player.film.map((f, i) => (
                 <li
                   key={i}
-                  className="flex items-center gap-3 rounded-lg border border-line bg-ink-3/50 px-4 py-3 text-sm text-zinc-200"
+                  className="flex items-center gap-3 rounded-lg border border-line bg-ink-2 px-4 py-3 text-sm text-zinc-300"
                 >
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-md bg-flame-500/15 text-flame-400">
-                    ▶
-                  </span>
+                  <Film size={18} className="shrink-0 text-accent" />
                   {f}
                 </li>
               ))}
@@ -216,21 +208,20 @@ export default function PlayerProfile() {
           )}
         </div>
 
-        <div className="card p-6">
+        <div>
           <h3 className="font-display text-lg font-extrabold uppercase tracking-wide text-white">
             Interview
           </h3>
           {player.interview.hasInterview ? (
             <>
-              <p className="mt-1 text-sm text-zinc-400">Sat down with {player.name} on camera.</p>
-              <blockquote className="mt-4 rounded-xl border-l-2 border-flame-500 bg-ink-3/50 p-4 text-zinc-200">
-                <span className="text-flame-400">“</span>
-                {player.interview.quote}
-                <span className="text-flame-400">”</span>
+              <p className="mt-1 text-sm text-zinc-500">Sat down with {player.name} on camera.</p>
+              <blockquote className="mt-4 flex gap-3 rounded-lg border border-line bg-ink-2 p-4 text-zinc-300">
+                <Quote size={18} className="mt-0.5 shrink-0 text-accent" />
+                <span>{player.interview.quote}</span>
               </blockquote>
               <Link
                 to="/interviews"
-                className="mt-4 inline-block font-display text-sm font-bold uppercase tracking-wide text-flame-400 hover:underline"
+                className="mt-4 inline-block font-display text-sm font-bold uppercase tracking-wide text-accent hover:text-accent-hover"
               >
                 Watch in the film room →
               </Link>
@@ -244,29 +235,28 @@ export default function PlayerProfile() {
       </section>
 
       {/* ===== Player Comparison ===== */}
-      <section className="mt-8">
-        <div className="card relative overflow-hidden p-6 sm:p-8">
-          <div className="pointer-events-none absolute -left-16 -bottom-16 h-56 w-56 rounded-full bg-flame-600/10 blur-3xl" />
-          <p className="font-display text-sm font-bold uppercase tracking-[0.2em] text-flame-400">
+      <section className="mt-10">
+        <div className="card p-6 sm:p-8">
+          <p className="font-display text-sm font-bold uppercase tracking-[0.2em] text-accent">
             Player Comparison
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-3">
             <span className="font-display text-3xl font-extrabold uppercase text-white">
               {player.name.split(' ')[0]}
             </span>
-            <span className="font-display text-2xl text-zinc-600">⟷</span>
-            <span className="font-display text-3xl font-extrabold uppercase text-flame-gradient">
+            <span className="font-display text-2xl text-zinc-600">/</span>
+            <span className="font-display text-3xl font-extrabold uppercase text-accent">
               {player.comparison.player}
             </span>
           </div>
-          <p className="mt-4 max-w-3xl leading-relaxed text-zinc-200">
+          <p className="mt-4 max-w-3xl leading-relaxed text-zinc-300">
             {player.comparison.reasoning}
           </p>
         </div>
       </section>
 
       {/* CTA */}
-      <div className="mt-10 flex flex-col items-center gap-4 rounded-2xl border border-line bg-ink-2/60 p-8 text-center">
+      <div className="mt-10 flex flex-col items-center gap-4 rounded-xl border border-line bg-ink-2 p-8 text-center">
         <p className="font-display text-2xl font-extrabold uppercase tracking-tight text-white">
           Want a deeper look at {player.name.split(' ')[0]}?
         </p>
@@ -276,7 +266,7 @@ export default function PlayerProfile() {
         </p>
         <a
           href={`mailto:scouting@nxtmanup.com?subject=Scouting request — ${player.name}`}
-          className="rounded-xl bg-gradient-to-r from-flame-400 to-flame-600 px-6 py-3 font-display font-bold uppercase tracking-wide text-ink hover:scale-[1.03]"
+          className="btn-accent"
         >
           Request full report
         </a>
