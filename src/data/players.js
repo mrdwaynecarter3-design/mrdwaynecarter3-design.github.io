@@ -1,0 +1,338 @@
+// Player dataset for NXT MAN UP.
+// To add a player: copy a block, give it a unique `id`/`slug`, fill the fields.
+// `eval.updatedAt` newer than ~21 days flags a "NEW UPDATE" badge automatically.
+
+export const POSITIONS = ['PG', 'SG', 'SF', 'PF', 'C']
+export const CLASSES = ['2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032']
+
+// Rating scale shown on the rankings page (kept from the scout-grade tradition).
+export const RATING_LEGEND = [
+  { score: '99–95', label: 'Elite — Power-conference, immediate-impact prospect' },
+  { score: '94–90', label: 'High-major scholarship lock' },
+  { score: '89–85', label: 'Mid/high-major, multi-year contributor' },
+  { score: '84–80', label: 'Mid-major scholarship prospect' },
+  { score: '79–75', label: 'Low-major / strong JUCO prospect' },
+  { score: '74–70', label: 'Developing varsity prospect' },
+  { score: '69 & below', label: 'Early developmental player' },
+]
+
+export const players = [
+  {
+    id: 1,
+    slug: 'tyran-stokes',
+    name: 'Tyran Stokes',
+    class: '2026',
+    position: 'SF',
+    pos2: 'PF',
+    rank: 1,
+    regionalRank: 1,
+    stateRank: 1,
+    scoutGrade: 95,
+    stars: 5,
+    height: "6'7\"",
+    weight: '230',
+    hometown: 'Louisville, Ky.',
+    state: 'KY',
+    school: 'Rainier Beach High School',
+    status: 'Committed',
+    statusDetail: 'Kansas',
+    statusDate: '04/28/2026',
+    spotlight: true,
+    radar: false,
+    stats: { ppg: 22.4, rpg: 9.1, apg: 4.3, fg: '54%' },
+    interview: {
+      hasInterview: true,
+      quote: 'I got next — and everybody behind me better be ready.',
+      videoUrl: '',
+    },
+    film: ['Summer circuit — vs. national field', 'State semifinal (full game)'],
+    eval: {
+      updatedAt: '2026-06-18',
+      overview:
+        'Positional size with a guard-skill operating system. Plays bigger than his frame and smaller than his frame on the same possession — bullies a mismatch, then snakes a pick-and-roll like a lead guard. The headliner of this class.',
+      strengths: [
+        'Elite physical tools — strong, long, plays through contact at the rim.',
+        'Three-level scorer; comfortable creating his own shot off the bounce.',
+        'Advanced feel as a passer out of double teams — rare for his size.',
+        'Two-way motor; switchable defender 1 through 4.',
+      ],
+      weaknesses: [
+        'Jumper mechanics get streaky when rushed; needs a more repeatable base.',
+        'Can over-rely on physical advantage vs. weaker competition.',
+        'Decision-making in transition speeds up — turnover spikes.',
+      ],
+    },
+    comparison: {
+      player: 'Paul Pierce',
+      reasoning:
+        'Not an athletic-marvel comp — a craft comp. Same heavy, deliberate shot-making in the mid-post, same ability to get to a spot and rise over a set defense without elite burst. The footwork and physicality remind me of prime Pierce more than any modern wing.',
+    },
+  },
+  {
+    id: 2,
+    slug: 'marcus-elwell',
+    name: 'Marcus Elwell',
+    class: '2027',
+    position: 'PG',
+    pos2: 'SG',
+    rank: 2,
+    regionalRank: 1,
+    stateRank: 1,
+    scoutGrade: 92,
+    stars: 5,
+    height: "6'2\"",
+    weight: '180',
+    hometown: 'Oak Park, Ill.',
+    state: 'IL',
+    school: 'Whitney Young High School',
+    status: 'Uncommitted',
+    statusDetail: '',
+    statusDate: '',
+    spotlight: false,
+    radar: false,
+    stats: { ppg: 19.8, rpg: 3.4, apg: 7.9, fg: '47%' },
+    interview: {
+      hasInterview: true,
+      quote: "They sleep on the pass-first guards. That's fine. I got next.",
+      videoUrl: '',
+    },
+    film: ['Live period — 3 games', 'Skills workout (handle + finishing)'],
+    eval: {
+      updatedAt: '2026-06-21',
+      overview:
+        'A true table-setter with real scoring gravity. Sees two passes ahead and throws on time and on target. The kind of lead guard who makes a roster of role players look organized.',
+      strengths: [
+        'Elite live-dribble passer; manipulates help with his eyes.',
+        'Change-of-pace and hesitation create easy advantages.',
+        'High basketball IQ — rarely makes the same mistake twice.',
+        'Plus free-throw and floater touch.',
+      ],
+      weaknesses: [
+        'Average length and standing reach limit defensive ceiling.',
+        'Catch-and-shoot 3 needs volume and consistency.',
+        'Slight frame — must add strength to finish through bigs.',
+      ],
+    },
+    comparison: {
+      player: 'Mike Conley',
+      reasoning:
+        'Steady, low-mistake floor general who wins with pace and timing instead of explosiveness. Like Conley, his value is the stuff that does not show up on a highlight reel — and it is exactly what a winning program needs.',
+    },
+  },
+  {
+    id: 3,
+    slug: 'deon-rivers',
+    name: 'Deon Rivers',
+    class: '2026',
+    position: 'C',
+    pos2: 'PF',
+    rank: 3,
+    regionalRank: 2,
+    stateRank: 1,
+    scoutGrade: 90,
+    stars: 4,
+    height: "6'10\"",
+    weight: '245',
+    hometown: 'Houston, Texas',
+    state: 'TX',
+    school: 'Yates High School',
+    status: 'Committed',
+    statusDetail: 'Houston',
+    statusDate: '05/02/2026',
+    spotlight: false,
+    radar: false,
+    stats: { ppg: 16.2, rpg: 11.7, apg: 1.8, fg: '61%' },
+    interview: { hasInterview: false, quote: '', videoUrl: '' },
+    film: ['Rim-protection cut-up', 'Post-up + short-roll reads'],
+    eval: {
+      updatedAt: '2026-05-30',
+      overview:
+        'Old-school anchor big with modern feet. Owns the paint on both ends and is starting to flash a face-up game that raises his ceiling considerably.',
+      strengths: [
+        'Vertical rim protector — alters everything at the cup.',
+        'Elite offensive rebounder; relentless second-jump.',
+        'Soft hands and touch around the basket.',
+        'Improving short-roll passing vision.',
+      ],
+      weaknesses: [
+        'Perimeter defense in space is a question on switches.',
+        'No reliable jumper beyond 12 feet yet.',
+        'Foul-prone when he reaches instead of moving his feet.',
+      ],
+    },
+    comparison: {
+      player: 'Steven Adams',
+      reasoning:
+        'A throwback interior force whose winning impact is screening, rebounding, and rim presence rather than scoring volume. Adams is the template for how Deon can be a high-level college and pro piece without ever stretching the floor.',
+    },
+  },
+  {
+    id: 4,
+    slug: 'amari-cole',
+    name: 'Amari Cole',
+    class: '2028',
+    position: 'SG',
+    pos2: 'SF',
+    rank: 4,
+    regionalRank: 1,
+    stateRank: 1,
+    scoutGrade: 88,
+    stars: 4,
+    height: "6'5\"",
+    weight: '195',
+    hometown: 'Atlanta, Ga.',
+    state: 'GA',
+    school: 'Grayson High School',
+    status: 'Uncommitted',
+    statusDetail: '',
+    statusDate: '',
+    spotlight: false,
+    radar: true,
+    stats: { ppg: 24.1, rpg: 5.2, apg: 3.0, fg: '49%' },
+    interview: {
+      hasInterview: true,
+      quote: 'Under the radar today. On every board tomorrow. I got next.',
+      videoUrl: '',
+    },
+    film: ['Microwave-scoring reel', 'Closeout-attack package'],
+    eval: {
+      updatedAt: '2026-06-22',
+      overview:
+        'My favorite under-the-radar bucket in the underclass. Score-first wing with legitimate shot-making range and a quick, repeatable release. Recruitment is about to explode.',
+      strengths: [
+        'Deep, quick-trigger pull-up — makes tough shots look routine.',
+        'Relocates and runs off screens with real intent.',
+        'Underrated burst on the first step attacking closeouts.',
+        'Competitive — wants the ball in big moments.',
+      ],
+      weaknesses: [
+        'Shot selection drifts when the offense bogs down.',
+        'Playmaking for others is still a work in progress.',
+        'Effort defense — engaged, but not yet consistent off-ball.',
+      ],
+    },
+    comparison: {
+      player: 'Devin Booker (HS)',
+      reasoning:
+        'Same projectable shooting guard size with a smooth, advanced scoring package that is ahead of his athletic testing. Like a young Booker, the bet is on shot-making translating up every level while the playmaking grows around it.',
+    },
+  },
+  {
+    id: 5,
+    slug: 'jaylen-frost',
+    name: 'Jaylen Frost',
+    class: '2027',
+    position: 'PF',
+    pos2: 'SF',
+    rank: 5,
+    regionalRank: 2,
+    stateRank: 1,
+    scoutGrade: 86,
+    stars: 4,
+    height: "6'8\"",
+    weight: '215',
+    hometown: 'Chandler, Ariz.',
+    state: 'AZ',
+    school: 'Hamilton High School',
+    status: 'Uncommitted',
+    statusDetail: '',
+    statusDate: '',
+    spotlight: false,
+    radar: true,
+    stats: { ppg: 14.6, rpg: 8.9, apg: 2.1, fg: '52%' },
+    interview: { hasInterview: false, quote: '', videoUrl: '' },
+    film: ['Transition + trail-3 reel', 'Switch defense vs. guards'],
+    eval: {
+      updatedAt: '2026-06-10',
+      overview:
+        'Modern combo forward with the tools to defend four positions and the early shooting flashes to play the connector role at a high level.',
+      strengths: [
+        'Versatile, switchable defender with active hands.',
+        'Runs the floor hard — easy transition offense.',
+        'Flashes a catch-and-shoot 3 with clean rotation.',
+        'Unselfish ball-mover inside the offense.',
+      ],
+      weaknesses: [
+        'Needs a go-to counter when the first move is cut off.',
+        'Functional strength to hold post position vs. bigs.',
+        'Handle in a crowd gets loose under pressure.',
+      ],
+    },
+    comparison: {
+      player: 'Trey Murphy III',
+      reasoning:
+        'A long, plus-athlete forward whose value is 3-and-D versatility rather than on-ball creation. Murphy is the realistic, valuable outcome — a connector who defends multiple spots and spaces the floor.',
+    },
+  },
+  {
+    id: 6,
+    slug: 'kingston-pace',
+    name: 'Kingston Pace',
+    class: '2029',
+    position: 'PG',
+    pos2: '',
+    rank: 6,
+    regionalRank: 1,
+    stateRank: 1,
+    scoutGrade: 84,
+    stars: 4,
+    height: "5'11\"",
+    weight: '160',
+    hometown: 'Newark, N.J.',
+    state: 'NJ',
+    school: 'Roselle Catholic',
+    status: 'Uncommitted',
+    statusDetail: '',
+    statusDate: '',
+    spotlight: false,
+    radar: true,
+    stats: { ppg: 18.0, rpg: 2.9, apg: 6.1, fg: '44%' },
+    interview: {
+      hasInterview: true,
+      quote: "Size is the first thing they doubt. It's the last thing that matters. I got next.",
+      videoUrl: '',
+    },
+    film: ['Eighth-grade circuit reel', 'Ball-screen decision package'],
+    eval: {
+      updatedAt: '2026-06-20',
+      overview:
+        'One of the most advanced young guards I have evaluated this cycle. Tiny now, but the pace, vision, and competitive fire are years ahead of his age group.',
+      strengths: [
+        'Exceptional pace and change-of-speed for his age.',
+        'Already manipulates ball screens like an upperclassman.',
+        'Fearless competitor; rises to the level of the matchup.',
+        'Quick, sticky hands defensively in passing lanes.',
+      ],
+      weaknesses: [
+        'Frame and length — biggest long-term swing factor.',
+        'Pull-up jumper is inconsistent off the dribble.',
+        'Finishing over length will require strength and craft.',
+      ],
+    },
+    comparison: {
+      player: 'Tyus Jones',
+      reasoning:
+        'An undersized, ultra-low-turnover lead guard who controls a game with brains and pace. If the body fills out even a little, the Tyus Jones floor — a trusted, winning point guard — is very much in play.',
+    },
+  },
+]
+
+export function getPlayer(slug) {
+  return players.find((p) => p.slug === slug)
+}
+
+// A player's evaluation counts as "new" if updated within this window.
+const NEW_WINDOW_DAYS = 21
+
+export function isRecentlyUpdated(dateStr, now = new Date()) {
+  if (!dateStr) return false
+  const updated = new Date(dateStr + 'T00:00:00')
+  const days = (now - updated) / (1000 * 60 * 60 * 24)
+  return days >= 0 && days <= NEW_WINDOW_DAYS
+}
+
+export function formatDate(dateStr) {
+  if (!dateStr) return ''
+  const d = new Date(dateStr + 'T00:00:00')
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
