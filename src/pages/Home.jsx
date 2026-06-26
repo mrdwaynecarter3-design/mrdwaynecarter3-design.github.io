@@ -39,7 +39,7 @@ export default function Home() {
               {[
                 ['6', 'Classes tracked'],
                 ['100%', 'Eyes-on, in person'],
-                ['“I got next.”', 'Every interview'],
+                ['6+', 'Prospects on the board'],
               ].map(([n, l]) => (
                 <div key={l}>
                   <p className="font-display text-2xl font-extrabold text-white">{n}</p>
