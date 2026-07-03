@@ -1,6 +1,11 @@
 // Events the scout has attended or plans to attend.
 // status: 'upcoming' | 'attended'
-export const events = [
+// The schedule lives in the Google Sheet's Events tab; the sync Action fills
+// events.generated.json and that wins. This list is only the fallback.
+
+import generated from './events.generated.json' with { type: 'json' }
+
+const fallbackEvents = [
   {
     id: 1,
     name: 'Nike EYBL — Session III',
@@ -50,3 +55,6 @@ export const events = [
     note: 'First in-person look at Kingston Pace. Interview recorded.',
   },
 ]
+
+export const events =
+  generated.events && generated.events.length > 0 ? generated.events : fallbackEvents

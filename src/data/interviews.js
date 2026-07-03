@@ -1,6 +1,10 @@
 // Uploaded interviews. Every interview ends with the player saying "I got next!"
-// Add a real `youtubeId` (or `videoUrl`) when footage is uploaded.
-export const interviews = [
+// The list lives in the Google Sheet's Interviews tab; the sync Action fills
+// interviews.generated.json and that wins. This list is only the fallback.
+
+import generated from './interviews.generated.json' with { type: 'json' }
+
+const fallbackInterviews = [
   {
     id: 1,
     playerSlug: 'tyran-stokes',
@@ -42,3 +46,6 @@ export const interviews = [
     closer: "Size is the first thing they doubt. It's the last thing that matters. I got next.",
   },
 ]
+
+export const interviews =
+  generated.interviews && generated.interviews.length > 0 ? generated.interviews : fallbackInterviews

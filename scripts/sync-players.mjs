@@ -9,70 +9,13 @@
 // The sheet has one row per player. Headers are matched case-insensitively
 // with spaces/punctuation ignored, so "Scout Grade" and "scout_grade" both work.
 
-import { readFileSync, writeFileSync } from 'node:fs'
+import { writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
+import { loadCsv, readTable, slugify, truthy, num, isoDate } from './lib/sheet-utils.mjs'
 
 const OUT_PATH = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'data', 'players.generated.json')
 
-// ---------- CSV parsing (RFC 4180: quoted fields, doubled quotes, newlines) ----------
-
-function parseCsv(text) {
-  const rows = []
-  let row = []
-  let field = ''
-  let inQuotes = false
-  let i = 0
-  // Strip BOM
-  if (text.charCodeAt(0) === 0xfeff) text = text.slice(1)
-  while (i < text.length) {
-    const ch = text[i]
-    if (inQuotes) {
-      if (ch === '"') {
-        if (text[i + 1] === '"') {
-          field += '"'
-          i += 2
-        } else {
-          inQuotes = false
-          i += 1
-        }
-      } else {
-        field += ch
-        i += 1
-      }
-    } else if (ch === '"') {
-      inQuotes = true
-      i += 1
-    } else if (ch === ',') {
-      row.push(field)
-      field = ''
-      i += 1
-    } else if (ch === '\r') {
-      i += 1
-    } else if (ch === '\n') {
-      row.push(field)
-      rows.push(row)
-      row = []
-      field = ''
-      i += 1
-    } else {
-      field += ch
-      i += 1
-    }
-  }
-  if (field !== '' || row.length > 0) {
-    row.push(field)
-    rows.push(row)
-  }
-  return rows
-}
-
-// ---------- Header normalization ----------
-
-const normalizeHeader = (h) => h.trim().toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '')
-
-// Maps normalized sheet headers to canonical keys. Numbered columns
-// (strength_1, film_2, ...) are handled separately.
 const HEADER_ALIASES = {
   name: 'name',
   player: 'name',
@@ -120,35 +63,11 @@ const HEADER_ALIASES = {
   comparison_reasoning: 'comparisonReasoning',
 }
 
-// ---------- Field helpers ----------
-
-const slugify = (name) =>
-  name.trim().toLowerCase().replace(/['’.]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-
-const truthy = (v) => /^(y|yes|true|x|1)/i.test((v || '').trim())
-
-const num = (v) => {
-  const n = Number(String(v || '').replace(/[^0-9.\-]/g, ''))
-  return Number.isFinite(n) && String(v).trim() !== '' ? n : 0
-}
-
 const pct = (v) => {
   const s = String(v || '').trim()
   if (!s) return ''
   return s.endsWith('%') ? s : `${s}%`
 }
-
-// Accepts YYYY-MM-DD or M/D/YYYY, returns YYYY-MM-DD (or '' if unparseable).
-function isoDate(v) {
-  const s = String(v || '').trim()
-  if (!s) return ''
-  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s
-  const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)
-  if (m) return `${m[3]}-${m[1].padStart(2, '0')}-${m[2].padStart(2, '0')}`
-  return ''
-}
-
-// ---------- Row → player ----------
 
 function rowToPlayer(get, getNumbered, index, warnings) {
   const name = get('name').trim()
@@ -205,21 +124,6 @@ function rowToPlayer(get, getNumbered, index, warnings) {
   }
 }
 
-// ---------- Main ----------
-
-async function loadCsv(source) {
-  if (/^https?:\/\//i.test(source)) {
-    const res = await fetch(source, { redirect: 'follow' })
-    if (!res.ok) throw new Error(`Fetch failed: HTTP ${res.status} ${res.statusText}`)
-    const text = await res.text()
-    if (/^\s*</.test(text)) {
-      throw new Error('Got an HTML page instead of CSV — is the sheet published to the web as CSV?')
-    }
-    return text
-  }
-  return readFileSync(source, 'utf8')
-}
-
 async function main() {
   const source = process.argv[2] || process.env.SHEET_CSV_URL
   if (!source) {
@@ -228,42 +132,11 @@ async function main() {
   }
 
   const csv = await loadCsv(source)
-  const rows = parseCsv(csv)
-  if (rows.length < 2) throw new Error('Sheet has no data rows.')
-
-  const headers = rows[0].map(normalizeHeader)
-  const colFor = {}
-  const numberedCols = {} // e.g. { strength: { 1: colIdx, ... }, film: {...}, weakness: {...} }
-  headers.forEach((h, idx) => {
-    if (HEADER_ALIASES[h]) {
-      colFor[HEADER_ALIASES[h]] = idx
-    } else {
-      const m = h.match(/^(strength|weakness|film)_?(\d+)$/)
-      if (m) {
-        numberedCols[m[1]] = numberedCols[m[1]] || {}
-        numberedCols[m[1]][m[2]] = idx
-      }
-    }
-  })
-
-  for (const required of ['name', 'class', 'position']) {
-    if (!(required in colFor)) throw new Error(`Sheet is missing a required column: ${required}`)
-  }
+  const rows = readTable(csv, HEADER_ALIASES, ['name', 'class', 'position'])
 
   const warnings = []
   const players = []
-  for (let r = 1; r < rows.length; r++) {
-    const row = rows[r]
-    const get = (key) => (colFor[key] != null ? row[colFor[key]] || '' : '')
-    const getNumbered = (prefix, max) => {
-      const out = []
-      for (let n = 1; n <= max; n++) {
-        const idx = numberedCols[prefix] && numberedCols[prefix][n]
-        const v = idx != null ? (row[idx] || '').trim() : ''
-        if (v) out.push(v)
-      }
-      return out
-    }
+  for (const { get, getNumbered } of rows) {
     if (!get('name').trim()) continue // skip blank rows
     players.push(rowToPlayer(get, getNumbered, players.length, warnings))
   }

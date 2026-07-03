@@ -5,7 +5,7 @@
 // is live (see docs/GOOGLE-SHEET-SETUP.md).
 // `eval.updatedAt` newer than ~21 days flags a "NEW UPDATE" badge automatically.
 
-import generated from './players.generated.json'
+import generated from './players.generated.json' with { type: 'json' }
 
 export const POSITIONS = ['PG', 'SG', 'SF', 'PF', 'C']
 export const CLASSES = ['2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032']

@@ -1,7 +1,7 @@
-name: Sync roster from Google Sheet
+name: Sync content from Google Sheet
 
 on:
-  # The manual button: repo -> Actions -> "Sync roster from Google Sheet" -> Run workflow.
+  # The manual button: repo -> Actions -> "Sync content from Google Sheet" -> Run workflow.
   workflow_dispatch:
   # Safety net: also sync twice a day (8am / 8pm UTC). Delete this block for button-only.
   schedule:
@@ -24,27 +24,31 @@ jobs:
         with:
           node-version: 20
 
-      - name: Pull sheet and regenerate roster
+      - name: Pull sheet and regenerate content
         env:
           SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL }}
+          SHEET_EVENTS_CSV_URL: ${{ secrets.SHEET_EVENTS_CSV_URL }}
+          SHEET_INTERVIEWS_CSV_URL: ${{ secrets.SHEET_INTERVIEWS_CSV_URL }}
         run: |
           if [ -z "$SHEET_CSV_URL" ]; then
             echo "::error::The SHEET_CSV_URL repository secret is not set. Add it under Settings -> Secrets and variables -> Actions."
             exit 1
           fi
           node scripts/sync-players.mjs
+          node scripts/sync-events.mjs
+          node scripts/sync-interviews.mjs
 
-      - name: Commit roster if it changed
+      - name: Commit content if it changed
         id: commit
         run: |
-          git add src/data/players.generated.json
+          git add src/data/players.generated.json src/data/events.generated.json src/data/interviews.generated.json
           if git diff --cached --quiet; then
             echo "No roster changes — site is already up to date."
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             git config user.name "roster-sync-bot"
             git config user.email "actions@github.com"
-            git commit -m "Sync roster from Google Sheet"
+            git commit -m "Sync content from Google Sheet"
             git push
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
