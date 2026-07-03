@@ -24,16 +24,15 @@ jobs:
         with:
           node-version: 20
 
-      - name: Check secret is configured
-        if: ${{ secrets.SHEET_CSV_URL == '' }}
-        run: |
-          echo "::error::The SHEET_CSV_URL repository secret is not set. Add it under Settings -> Secrets and variables -> Actions."
-          exit 1
-
       - name: Pull sheet and regenerate roster
         env:
           SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL }}
-        run: node scripts/sync-players.mjs
+        run: |
+          if [ -z "$SHEET_CSV_URL" ]; then
+            echo "::error::The SHEET_CSV_URL repository secret is not set. Add it under Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
+          node scripts/sync-players.mjs
 
       - name: Commit roster if it changed
         id: commit
