@@ -30,9 +30,13 @@ npm run preview  # preview the production build
 
 ## Editing content
 
-All content lives in plain JS files — no CMS required:
+**Players, rankings, and evaluations live in a Google Sheet** — see
+[docs/GOOGLE-SHEET-SETUP.md](docs/GOOGLE-SHEET-SETUP.md) for setup and day-to-day use. The
+"Sync roster from Google Sheet" Action pulls it into `src/data/players.generated.json` and
+redeploys; `src/data/players.js` holds the fallback roster used until the first sync.
 
-- `src/data/players.js` — players, rankings, evaluations, comparisons.
+Other content still lives in plain JS files:
+
 - `src/data/events.js` — events attended / upcoming.
 - `src/data/interviews.js` — uploaded interviews (add a `youtubeId` when footage is ready).
 

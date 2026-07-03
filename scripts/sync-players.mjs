@@ -283,7 +283,9 @@ async function main() {
     players.forEach((p, i) => (p.id = i + 1))
   }
 
-  writeFileSync(OUT_PATH, JSON.stringify({ syncedAt: new Date().toISOString(), players }, null, 2) + '\n')
+  // No timestamp in the output: the file must be byte-identical when the
+  // sheet hasn't changed, so the workflow's "no changes" check works.
+  writeFileSync(OUT_PATH, JSON.stringify({ players }, null, 2) + '\n')
   console.log(`Wrote ${players.length} players to src/data/players.generated.json`)
   for (const w of warnings) console.warn(`WARNING: ${w}`)
 }
