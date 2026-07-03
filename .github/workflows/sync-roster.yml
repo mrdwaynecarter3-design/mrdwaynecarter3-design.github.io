@@ -1,0 +1,59 @@
+name: Sync roster from Google Sheet
+
+on:
+  # The manual button: repo -> Actions -> "Sync roster from Google Sheet" -> Run workflow.
+  workflow_dispatch:
+  # Safety net: also sync twice a day (8am / 8pm UTC). Delete this block for button-only.
+  schedule:
+    - cron: '0 8,20 * * *'
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: sync-roster
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check secret is configured
+        if: ${{ secrets.SHEET_CSV_URL == '' }}
+        run: |
+          echo "::error::The SHEET_CSV_URL repository secret is not set. Add it under Settings -> Secrets and variables -> Actions."
+          exit 1
+
+      - name: Pull sheet and regenerate roster
+        env:
+          SHEET_CSV_URL: ${{ secrets.SHEET_CSV_URL }}
+        run: node scripts/sync-players.mjs
+
+      - name: Commit roster if it changed
+        id: commit
+        run: |
+          git add src/data/players.generated.json
+          if git diff --cached --quiet; then
+            echo "No roster changes — site is already up to date."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git config user.name "roster-sync-bot"
+            git config user.email "actions@github.com"
+            git commit -m "Sync roster from Google Sheet"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Pushes made with GITHUB_TOKEN don't fire the push-triggered deploy
+      # workflow, so kick it off explicitly.
+      - name: Trigger site deploy
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main

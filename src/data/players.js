@@ -1,6 +1,11 @@
 // Player dataset for NXT MAN UP.
-// To add a player: copy a block, give it a unique `id`/`slug`, fill the fields.
+// The roster now lives in Dwayne's Google Sheet. The "Sync roster" GitHub
+// Action pulls it into players.generated.json; when that file has players,
+// it wins. The hardcoded list below is only the fallback until the sheet
+// is live (see docs/GOOGLE-SHEET-SETUP.md).
 // `eval.updatedAt` newer than ~21 days flags a "NEW UPDATE" badge automatically.
+
+import generated from './players.generated.json'
 
 export const POSITIONS = ['PG', 'SG', 'SF', 'PF', 'C']
 export const CLASSES = ['2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032']
@@ -16,7 +21,7 @@ export const RATING_LEGEND = [
   { score: '69 & below', label: 'Early developmental player' },
 ]
 
-export const players = [
+const fallbackPlayers = [
   {
     id: 1,
     slug: 'tyran-stokes',
@@ -316,6 +321,10 @@ export const players = [
     },
   },
 ]
+
+// Sheet data wins once the sync has run at least once.
+export const players =
+  generated.players && generated.players.length > 0 ? generated.players : fallbackPlayers
 
 export function getPlayer(slug) {
   return players.find((p) => p.slug === slug)
