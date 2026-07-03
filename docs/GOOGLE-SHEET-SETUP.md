@@ -62,6 +62,20 @@ npm run dev
 This regenerates `src/data/players.generated.json` from the given source so
 you can preview exactly what the live site will show.
 
+## Troubleshooting
+
+- **Sync run is green but the site didn't change:** check the "Deploy to
+  GitHub Pages" run that follows it in the Actions tab. GitHub Pages
+  occasionally fails with "Deployment failed, try again later" — open the
+  failed deploy run and click **Re-run failed jobs**. The roster data is
+  already committed at that point; only the publish step needs to be retried.
+- **Sync run is red:** open the run's log. The most common causes are the
+  `SHEET_CSV_URL` secret missing/wrong, or the sheet's "Publish to web"
+  having been turned off.
+- **Sheet edits take a few minutes to appear in the published CSV.** If you
+  press the button immediately after editing, Google may still serve the old
+  version — wait ~5 minutes and run it again.
+
 ## Upgrade path (full "option 2")
 
 If the published-CSV link ever needs to go away entirely, swap it for a Google
