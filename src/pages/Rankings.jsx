@@ -94,7 +94,7 @@ export default function Rankings() {
                   </td>
                   <td className="px-4 py-3">
                     <Link to={`/player/${p.slug}`} className="flex items-center gap-3 group">
-                      <PlayerAvatar name={p.name} size="h-10 w-10" text="text-sm" />
+                      <PlayerAvatar name={p.name} slug={p.slug} size="h-10 w-10" text="text-sm" />
                       <div>
                         <p className="font-semibold text-white group-hover:text-accent">
                           {p.name}

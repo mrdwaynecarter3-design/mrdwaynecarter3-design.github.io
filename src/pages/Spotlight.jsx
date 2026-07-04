@@ -19,7 +19,7 @@ export default function Spotlight() {
       <div className="card">
         <div className="grid gap-8 p-6 sm:p-10 lg:grid-cols-[auto_1fr] lg:items-center">
           <div className="flex flex-col items-center gap-4 text-center">
-            <PlayerAvatar name={featured.name} size="h-32 w-32" text="text-4xl" />
+            <PlayerAvatar name={featured.name} slug={featured.slug} size="h-32 w-32" text="text-4xl" />
             <div>
               <span className="font-display text-6xl font-extrabold leading-none text-accent">
                 {featured.scoutGrade}

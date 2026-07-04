@@ -58,7 +58,7 @@ export default function Evaluations() {
                 to={`/player/${p.slug}`}
                 className="flex min-w-[230px] items-center gap-3 rounded-lg border border-line bg-ink-3 p-3 transition-colors hover:border-zinc-600"
               >
-                <PlayerAvatar name={p.name} size="h-11 w-11" text="text-sm" />
+                <PlayerAvatar name={p.name} slug={p.slug} size="h-11 w-11" text="text-sm" />
                 <div>
                   <p className="font-semibold text-white">{p.name}</p>
                   <p className="text-xs text-accent">Updated {formatDate(p.eval.updatedAt)}</p>

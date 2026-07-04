@@ -12,7 +12,7 @@ export default function PlayerCard({ player }) {
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
-          <PlayerAvatar name={player.name} />
+          <PlayerAvatar name={player.name} slug={player.slug} />
           <div>
             <p className="font-display text-lg font-bold leading-tight text-white">{player.name}</p>
             <p className="text-sm text-zinc-400">

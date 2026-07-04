@@ -36,7 +36,7 @@ function InterviewCard({ item }) {
 
       <div className="p-5">
         <div className="flex items-center gap-3">
-          <PlayerAvatar name={item.playerName} size="h-10 w-10" text="text-sm" />
+          <PlayerAvatar name={item.playerName} slug={item.playerSlug} size="h-10 w-10" text="text-sm" />
           <div>
             <Link
               to={`/player/${item.playerSlug}`}

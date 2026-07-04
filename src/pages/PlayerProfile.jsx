@@ -34,7 +34,7 @@ export default function PlayerProfile() {
           {/* Left: identity */}
           <div>
             <div className="flex items-start gap-4">
-              <PlayerAvatar name={player.name} size="h-20 w-20" text="text-2xl" />
+              <PlayerAvatar name={player.name} slug={player.slug} size="h-20 w-20" text="text-2xl" />
               <div>
                 <div className="flex flex-wrap items-center gap-3">
                   <h1 className="font-display text-4xl font-extrabold uppercase leading-none tracking-tight text-white sm:text-5xl">

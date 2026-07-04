@@ -1,6 +1,12 @@
 // Small shared presentational helpers.
 
-export function PlayerAvatar({ name, size = 'h-14 w-14', text = 'text-lg' }) {
+import { useState } from 'react'
+
+// Fixed-size frame either way: headshot from /public/players/{slug}.jpg when
+// one exists, initials otherwise — layout is identical with or without a photo.
+// To add a photo, drop {slug}.jpg into public/players/ (see the NAMING.md there).
+export function PlayerAvatar({ name, slug, size = 'h-14 w-14', text = 'text-lg' }) {
+  const [photoFailed, setPhotoFailed] = useState(false)
   const initials = name
     .split(' ')
     .map((w) => w[0])
@@ -8,9 +14,18 @@ export function PlayerAvatar({ name, size = 'h-14 w-14', text = 'text-lg' }) {
     .join('')
   return (
     <span
-      className={`grid ${size} shrink-0 place-items-center rounded-full bg-ink-3 ring-1 ring-line ${text} font-display font-bold uppercase text-zinc-200`}
+      className={`relative grid ${size} shrink-0 place-items-center overflow-hidden rounded-full bg-ink-3 ring-1 ring-line ${text} font-display font-bold uppercase text-zinc-200`}
     >
       {initials}
+      {slug && !photoFailed && (
+        <img
+          src={`/players/${slug}.jpg`}
+          alt=""
+          loading="lazy"
+          onError={() => setPhotoFailed(true)}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      )}
     </span>
   )
 }

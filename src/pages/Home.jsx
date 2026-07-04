@@ -61,7 +61,7 @@ export default function Home() {
               <NewBadge>Most consistent</NewBadge>
             </div>
             <div className="mt-5 flex items-center gap-4">
-              <PlayerAvatar name={spotlight.name} size="h-20 w-20" text="text-2xl" />
+              <PlayerAvatar name={spotlight.name} slug={spotlight.slug} size="h-20 w-20" text="text-2xl" />
               <div>
                 <p className="font-display text-2xl font-extrabold text-white">{spotlight.name}</p>
                 <p className="text-sm text-zinc-400">
