@@ -64,8 +64,11 @@ async function main() {
     })
   }
 
-  if (events.length === 0) throw new Error('No events found in the sheet.')
-
+  // An empty tab isn't an error — the site keeps its built-in fallback list
+  // until the first real row is added.
+  if (events.length === 0) {
+    console.log('Events tab has no rows yet — site keeps its built-in list.')
+  }
   writeFileSync(OUT_PATH, JSON.stringify({ events }, null, 2) + '\n')
   console.log(`Wrote ${events.length} events to src/data/events.generated.json`)
   for (const w of warnings) console.warn(`WARNING: ${w}`)

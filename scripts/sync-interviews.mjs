@@ -74,7 +74,11 @@ async function main() {
     })
   }
 
-  if (interviews.length === 0) throw new Error('No interviews found in the sheet.')
+  // An empty tab isn't an error — the site keeps its built-in fallback list
+  // until the first real row is added.
+  if (interviews.length === 0) {
+    console.log('Interviews tab has no rows yet — site keeps its built-in list.')
+  }
 
   // Newest first, matching how the film room reads.
   interviews.sort((a, b) => (b.date || '').localeCompare(a.date || ''))

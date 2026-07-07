@@ -98,7 +98,7 @@ export async function loadCsv(source) {
 // Returns { rows: [{ get, getNumbered }] } for non-empty data rows.
 export function readTable(csv, aliases, requiredKeys = []) {
   const parsed = parseCsv(csv)
-  if (parsed.length < 2) throw new Error('Sheet has no data rows.')
+  if (parsed.length === 0) throw new Error('Sheet is completely empty — no header row.')
 
   const headers = parsed[0].map(normalizeHeader)
   const colFor = {}
