@@ -1,3 +1,14 @@
 {
-  "interviews": []
+  "interviews": [
+    {
+      "id": 1,
+      "playerSlug": "joe-bart",
+      "playerName": "Joe Bart",
+      "title": "THE TEST VID",
+      "date": "2026-07-08",
+      "duration": "15",
+      "youtubeId": "",
+      "closer": ""
+    }
+  ]
 }

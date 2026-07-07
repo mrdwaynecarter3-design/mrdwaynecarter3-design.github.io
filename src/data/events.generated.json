@@ -1,3 +1,12 @@
 {
-  "events": []
+  "events": [
+    {
+      "id": 1,
+      "name": "Test Event",
+      "location": "Atlanta, GA",
+      "date": "2026-07-06",
+      "status": "attended",
+      "note": "This is a test event"
+    }
+  ]
 }
