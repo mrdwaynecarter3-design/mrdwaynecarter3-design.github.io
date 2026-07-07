@@ -4,8 +4,8 @@
       "id": 1,
       "name": "Test Event",
       "location": "Atlanta, GA",
-      "date": "2026-07-06",
-      "status": "attended",
+      "date": "2026-07-09",
+      "status": "upcoming",
       "note": "This is a test event"
     }
   ]
